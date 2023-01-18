@@ -1,10 +1,25 @@
-# Library Loader
+v# Library Loader
 
 ## Introduction
 
 This is a simple library fdemonstrating the use of post-delegation classloaders for isolating plugins from their host components.
 
 ## Motivation
+
+### Motivating Example
+
+A sample application is provided to demonstrate the use of the post-delegation class loader to isolate dynamically-loaded extensions from classes that have previously been loaded.
+
+The application statically instantiates a single component.  That component allows for extensions, so it statically instantiates a single plugin.  Together, the app, its component, and the component's plugin constitute the 'core' of he application.
+
+However, the application also allows users to customize it by adding in new components, which may then add in new plugins.  This customization is all done dynamically, by loading the custom components and plugins using reflection, using their full-qualified names and the location where the classes cn be found.
+
+Consumer-provided extensions are loaded with a 'post-delegation' class loader, which overrides the default class loader behavior, first checking the local class path 
+(derived 
+from the root directory where the extensions live) before delegating to the parent
+class loader.  That dynamicalaly-loaded component then dynamically loads another
+extension -- a plugin to the component -- using the same mechanism.
+
 
 There are plenty of examples for Java, but few for Kotlin.  This means to fill that gap.
 
@@ -14,8 +29,28 @@ Everything is interface-based. So the code is organized into pairs of files for 
 
 ## Overview of Code Organization
 
- 
 ## Files
+
+* Test/Example
+** main - calls App
+** app - simulates an application with a mix of statically- and dynamically-loaded classes
+** ComponentImpl - dynamically-loaded doppleganger to the statically-loaded one in App
+** PluginImpl - dynamically-loaded doppleganger to the statically-loaded one in App's Component
+
+### Class Loading
+* utils_classloading_instantiation
+* utils_classloading_postdelegation
+* utils_classloading_factory - unused
+* 
+### Primary Classes and Funcion
+
+* loader_utils_initialization
+* loader_utils_exensionloading - Funcation that encapsulates all instatiation & initialization
+* spi_extension_interfaces
+* spi_loadable_interfaces
+* spi_environment_interfaces
+
+* ComponentImpl
 
 ## Architecture
 
