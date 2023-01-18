@@ -14,12 +14,7 @@ The application statically instantiates a single component.  That component allo
 
 However, the application also allows users to customize it by adding in new components, which may then add in new plugins.  This customization is all done dynamically, by loading the custom components and plugins using reflection, using their full-qualified names and the location where the classes cn be found.
 
-Consumer-provided extensions are loaded with a 'post-delegation' class loader, which overrides the default class loader behavior, first checking the local class path 
-(derived 
-from the root directory where the extensions live) before delegating to the parent
-class loader.  That dynamicalaly-loaded component then dynamically loads another
-extension -- a plugin to the component -- using the same mechanism.
-
+Consumer-provided extensions are loaded with a 'post-delegation' class loader, which overrides the default class loader behavior, first checking the local class path (derived from the root directory where the extensions live) before delegating to the parent class loader.  That dynamically-loaded component then dynamically loads another extension -- a plugin to the component -- using the same mechanism.
 
 There are plenty of examples for Java, but few for Kotlin.  This means to fill that gap.
 
