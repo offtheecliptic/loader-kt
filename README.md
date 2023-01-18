@@ -2,21 +2,23 @@ v# Library Loader
 
 ## Introduction
 
-This is a simple library fdemonstrating the use of post-delegation classloaders for isolating plugins from their host components.
+This is a simple library and application demonstrating the use of post-delegation classloaders in Kotlin.  Post-delegation classloaders are used to isolate plugins from their host components.
+
+There are plenty of examples of post-delegation class loading for Java, but few for Kotlin.  This means to fill that gap.
 
 ## Motivation
 
 ### Motivating Example
 
-A sample application is provided to demonstrate the use of the post-delegation class loader to isolate dynamically-loaded extensions from classes that have previously been loaded.
+A sample application is provided to demonstrate the use of the post-delegation class loader to isolate dynamically-loaded extensions from classes that have previously been loaded.  The application itself is built from an extensible component.
 
-The application statically instantiates a single component.  That component allows for extensions, so it statically instantiates a single plugin.  Together, the app, its component, and the component's plugin constitute the 'core' of he application.
+The sample application statically instantiates its own extensible component upon startup; that component then statically instantiates a single plugin.  Together, the app, its component, and the component's plugin constitute the 'core' of the application.
 
-However, the application also allows users to customize it by adding in new components, which may then add in new plugins.  This customization is all done dynamically, by loading the custom components and plugins using reflection, using their full-qualified names and the location where the classes cn be found.
+The sample application allows users to customize it by adding in new components, which may then add in new plugins.  This customization is all done dynamically, by loading the custom components and plugins via reflection, using their full-qualified names and the location where the classes can be found.
 
-Consumer-provided extensions are loaded with a 'post-delegation' class loader, which overrides the default class loader behavior, first checking the local class path (derived from the root directory where the extensions live) before delegating to the parent class loader.  That dynamically-loaded component then dynamically loads another extension -- a plugin to the component -- using the same mechanism.
+To demonstrate the post-delegation class loading mechanism and how it operates with respect to already-loaded software modules, a consumer-provided extension is dynamically loaded using the 'post-delegation' class loader.  That dynamically-loaded component then dynamically loads another extension -- a plugin to the component -- using the same mechanism.
 
-There are plenty of examples for Java, but few for Kotlin.  This means to fill that gap.
+Note that the post-delegation loader used to dynamically load the second component and its plugin overrides the default class loader behavior.  Unlike th edefault classloader, the [post-delegation loader first checksi the local class path (derived from the root directory where the extensions live) before delegating to the parent class loader. 
 
 ## Design Philosophy
 
@@ -128,12 +130,23 @@ ________________________________________________________________________________
 
 _________________________________________________________________________________________________________________
 ## Contributions
+* Robert W Scanlon
+* 
+
+## References
+1. Writing a post-delegation classloader, Alex Miller, 11/09/2006.
+   - https://puredanger.github.io/tech.puredanger.com/2006/11/09/classloader/
+2. Java: A Child-First Classloader, Isuru Weerarathna, 11/08/2018.
+   - https://medium.com/@isuru89/java-a-child-first-class-loader-cbd9c3d0305
+3. Call Class Constructor by Reflection in Kotlin, Michale, 4/16/2016.
+   1. https://stackoverflow.com/questions/36665039/call-class-constructor-by-reflection-with-kotlin/36665249#36665249
+4. 
 
 
 _________________________________________________________________________________________________________________
 ## License
 
-Copyright © 2021-2022 OffTheEcliptic
+Copyright © 2022-2023 OffTheEcliptic
 
 This program and the accompanying materials are made available under the terms of the Eclipse Public License 2.0 which is available at http://www.eclipse.org/legal/epl-2.0.
 
